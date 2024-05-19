@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     .single()
 
   if (userError || !user) {
-    return NextResponse.json({ error: 'Invalid API key' }, { status: 401 })
+    return NextResponse.json({ error: 'Invalid API key', details: userError ? userError.message : 'No user found' }, { status: 401 })
   }
 
   // Insert event into database
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     ])
 
   if (insertError) {
-    return NextResponse.json({ error: 'Error storing event data' }, { status: 500 })
+    return NextResponse.json({ error: 'Error storing event data', details: insertError ? insertError.message : 'No user found' }, { status: 500 })
   }
 
   return NextResponse.json({ message: 'Event stored successfully' }, { status: 200 })
