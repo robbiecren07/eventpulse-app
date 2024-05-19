@@ -2,12 +2,13 @@ import { createServiceClient } from '@/utils/supabase/service'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
-  const { apiKey, event, data } = await req.json()
+  const { apiKey, event, eventData, rawData } = await req.json()
 
-  if (!apiKey || !event || !data) {
+  if (!apiKey || !event || !eventData || !rawData) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
+  // Create Supabase client using the service role
   const supabase = createServiceClient()
 
   // Verify API Key
@@ -27,7 +28,8 @@ export async function POST(req: Request) {
     .insert({
         user_id: user.user_id,
         event_name: event,
-        event_data: data,
+        event_data: eventData,
+        raw_data: rawData,
       })
 
   if (insertError) {
