@@ -46,7 +46,10 @@ export default function ApiKeyForm({ apiKeys }: Props) {
               type="text"
               value={apiKey}
             />
-            <Button type="submit" disabled={apiKeys ? true : false}>
+            <Button
+              type="submit"
+              disabled={apiKeys && apiKeys.length > 0 ? true : false}
+            >
               Generate API Key
             </Button>
           </div>

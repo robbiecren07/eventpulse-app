@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { createServiceClient } from '@/utils/supabase/service'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
-  const supabase = createClient()
+  const supabase = createServiceClient()
 
   // Verify API Key
   const { data: user, error: userError } = await supabase
@@ -24,13 +24,11 @@ export async function POST(req: Request) {
   // Insert event into database
   const { error: insertError } = await supabase
     .from('events')
-    .insert([
-      {
+    .insert({
         user_id: user.user_id,
         event_name: event,
         event_data: data,
-      },
-    ])
+      })
 
   if (insertError) {
     return NextResponse.json({ error: 'Error storing event data', details: insertError ? insertError.message : 'No user found' }, { status: 500 })
