@@ -1,6 +1,14 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 
+export async function OPTIONS() {
+  const headers = new Headers();
+  headers.set('Access-Control-Allow-Origin', '*');
+  headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  headers.set('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  return new Response(null, { headers });
+}
+
 export async function POST(req: Request) {
   const { apiKey, event, data } = await req.json()
 
@@ -36,5 +44,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Error storing event data' }, { status: 500 })
   }
 
-  return NextResponse.json({ message: 'Event stored successfully' }, { status: 200 })
+  return NextResponse.json({ message: 'Event stored successfully' }, { status: 200, headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  }, })
 }
