@@ -7,7 +7,7 @@ export default async function Dashboard() {
 
   const { data, error } = await supabase.auth.getUser()
   if (error || !data?.user) {
-    redirect('/login')
+    redirect('/')
   }
 
   const { data: api_keys } = await supabase

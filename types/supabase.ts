@@ -29,6 +29,7 @@ export interface Database {
           user_id: string;
           event_name: string;
           event_data: Json;
+          raw_data: Json;
           created_at: string | null;
         };
         Insert: {

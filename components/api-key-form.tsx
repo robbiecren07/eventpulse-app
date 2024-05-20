@@ -24,7 +24,7 @@ export default function ApiKeyForm({ apiKeys }: Props) {
     apiKeys && apiKeys.length > 0 ? apiKeys[0].api_key : 'No API key generated'
 
   return (
-    <Card className="mx-auto max-w-md">
+    <Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <CardTitle>API Key</CardTitle>
         <CardDescription>Generate and manage your API key.</CardDescription>
