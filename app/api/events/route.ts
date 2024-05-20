@@ -22,19 +22,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid API key', details: userError ? userError.message : 'No user found' }, { status: 401 })
   }
 
+  // Get IP address with fallback to headers
+  const ip = req.ip || req.headers.get('x-forwarded-for')?.split(',').shift()?.trim() || req.headers.get('x-real-ip') || 'unknown'
+
+  // Get geo information with fallbacks
+  const geo = {
+    city: req.geo?.city || 'unknown',
+    country: req.geo?.country || 'unknown',
+    latitude: req.geo?.latitude || 'unknown',
+    longitude: req.geo?.longitude || 'unknown',
+    region: req.geo?.region || 'unknown',
+  }
+
   const rawData = {
     ...eventData,
     context: {
       ...eventData.context,
-      ip: req.ip,
+      ip,
     },
-    geo: {
-      city: req.geo?.city,
-      country: req.geo?.country,
-      latitude: req.geo?.latitude,
-      longitude: req.geo?.longitude,
-      region: req.geo?.region,
-    },
+    geo,
   }
 
   // Insert event into database
