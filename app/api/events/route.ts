@@ -1,7 +1,7 @@
 import { createServiceClient } from '@/utils/supabase/service'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const { apiKey, event, eventData } = await req.json()
 
   if (!apiKey || !event || !eventData) {
@@ -22,13 +22,28 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid API key', details: userError ? userError.message : 'No user found' }, { status: 401 })
   }
 
+  const rawData = {
+    ...eventData,
+    context: {
+      ...eventData.context,
+      ip: req.ip,
+    },
+    geo: {
+      city: req.geo?.city,
+      country: req.geo?.country,
+      latitude: req.geo?.latitude,
+      longitude: req.geo?.longitude,
+      region: req.geo?.region,
+    },
+  }
+
   // Insert event into database
   const { error: insertError } = await supabase
     .from('events')
     .insert({
         user_id: user.user_id,
         event_name: event,
-        event_data: eventData
+        event_data: rawData
       })
 
   if (insertError) {
