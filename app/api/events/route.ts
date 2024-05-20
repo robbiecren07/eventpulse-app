@@ -2,9 +2,9 @@ import { createServiceClient } from '@/utils/supabase/service'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
-  const { apiKey, event, eventData, rawData } = await req.json()
+  const { apiKey, event, eventData } = await req.json()
 
-  if (!apiKey || !event || !eventData || !rawData) {
+  if (!apiKey || !event || !eventData) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
@@ -28,8 +28,7 @@ export async function POST(req: Request) {
     .insert({
         user_id: user.user_id,
         event_name: event,
-        event_data: eventData,
-        raw_data: rawData,
+        event_data: eventData
       })
 
   if (insertError) {
