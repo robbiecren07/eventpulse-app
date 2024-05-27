@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
   const { error: insertError } = await supabase
     .from('javascript_events')
     .insert({
+        source_slug: user.source_slug,
         source_id: user.id,
         user_id: user.user_id,
         event_name: event,
