@@ -3,6 +3,10 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 
+interface Props {
+  sourceSlug: string
+}
+
 interface Event {
   id: string
   event_name: string
@@ -11,50 +15,52 @@ interface Event {
   created_at: string
 }
 
-export default function Debugger() {
+export default function Debugger(sourceSlug: Props) {
   const supabase = createClient()
 
   const [events, setEvents] = useState<Event[]>([])
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
 
-  // useEffect(() => {
-  //   const fetchInitialEvents = async () => {
-  //     const { data, error } = await supabase
-  //       .from('events')
-  //       .select('*')
-  //       .order('created_at', { ascending: false })
-  //       .limit(10)
+  useEffect(() => {
+    const fetchInitialEvents = async () => {
+      const { data, error } = await supabase
+        .from('javascript_events')
+        .select('*')
+        .eq('source_slug', sourceSlug.sourceSlug)
+        .order('created_at', { ascending: false })
+        .limit(10)
 
-  //     if (error) {
-  //       console.error('Error fetching events:', error)
-  //     } else if (data) {
-  //       setEvents(data as Event[])
-  //     }
-  //   }
+      if (error) {
+        console.error('Error fetching events:', error)
+      } else if (data) {
+        setEvents(data as Event[])
+      }
+    }
 
-  //   fetchInitialEvents()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+    fetchInitialEvents()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  // useEffect(() => {
-  //   const channel = supabase
-  //     .channel('realtime events')
-  //     .on(
-  //       'postgres_changes',
-  //       {
-  //         event: 'INSERT',
-  //         schema: 'public',
-  //         table: 'events',
-  //       },
-  //       (payload) => {
-  //         setEvents((prevEvents) => [payload.new as Event, ...prevEvents])
-  //       }
-  //     )
-  //     .subscribe()
-  //   return () => {
-  //     supabase.removeChannel(channel)
-  //   }
-  // }, [supabase])
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime events')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'javascript_events',
+          filter: `source_slug=eq.${sourceSlug.sourceSlug}`,
+        },
+        (payload) => {
+          setEvents((prevEvents) => [payload.new as Event, ...prevEvents])
+        }
+      )
+      .subscribe()
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [supabase, sourceSlug])
 
   return (
     <div className="w-full h-full flex overflow-y-auto">

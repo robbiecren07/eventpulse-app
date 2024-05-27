@@ -3,22 +3,28 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
-export function Menu() {
+interface Props {
+  sourceSlug: string
+}
+
+export function Menu(sourceSlug: Props) {
   const pathname = usePathname()
 
   return (
     <ul className="w-full flex px-6 border-b border-border">
       <li
         className={`relative h-10 w-max px-4 py-2 ${
-          pathname === '/dashboard/sources/javascript'
+          pathname === `/dashboard/sources/${sourceSlug.sourceSlug}`
             ? 'border-b-2 border-purple-700'
             : null
         }`}
       >
         <Link
-          href="/dashboard/sources/javascript"
+          href={`/dashboard/sources/${sourceSlug.sourceSlug}`}
           className={`text-muted-foreground hover:text-primary transition-colors ${
-            pathname === '/dashboard/sources/javascript' ? 'text-primary' : null
+            pathname === `/dashboard/sources/${sourceSlug.sourceSlug}`
+              ? 'text-primary'
+              : null
           }`}
         >
           Overview
@@ -26,15 +32,15 @@ export function Menu() {
       </li>
       <li
         className={`relative h-10 w-max px-4 py-2 ${
-          pathname === '/dashboard/sources/javascript/debugger'
+          pathname === `/dashboard/sources/${sourceSlug.sourceSlug}/debugger`
             ? 'border-b-2 border-purple-700'
             : null
         }`}
       >
         <Link
-          href="/dashboard/sources/javascript/debugger"
+          href={`/dashboard/sources/${sourceSlug.sourceSlug}/debugger`}
           className={`text-muted-foreground hover:text-primary transition-colors ${
-            pathname === '/dashboard/sources/javascript/debugger'
+            pathname === `/dashboard/sources/${sourceSlug.sourceSlug}/debugger`
               ? 'text-primary'
               : null
           }`}

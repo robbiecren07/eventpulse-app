@@ -40,6 +40,7 @@ export interface Database {
           id: string;
           user_id: string;
           source_name: string;
+          source_slug: string;
           api_key: string;
           type: string;
           connection_type: string;
@@ -52,6 +53,7 @@ export interface Database {
           id?: string;
           user_id: string;
           source_name: string;
+          source_slug?: string;
           api_key: string;
           type: string;
           connection_type: string;
@@ -64,6 +66,7 @@ export interface Database {
           id?: string;
           user_id?: string;
           source_name?: string;
+          source_slug?: string;
           api_key?: string;
           type?: string;
           connection_type?: string;

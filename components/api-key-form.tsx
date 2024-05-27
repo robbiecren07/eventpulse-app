@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef } from 'react'
-import { generateApiKey } from '@/app/dashboard/actions'
 import { ApiKeys } from '@/types/custom'
 import {
   CardTitle,
@@ -33,7 +32,7 @@ export default function ApiKeyForm({ apiKeys }: Props) {
         <form
           ref={formRef}
           action={async (data) => {
-            await generateApiKey(data)
+            //await generateApiKey(data)
             formRef.current?.reset()
           }}
         >

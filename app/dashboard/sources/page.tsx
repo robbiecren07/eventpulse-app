@@ -63,7 +63,7 @@ export default async function Sources() {
             return (
               <a
                 key={key.api_key}
-                href={`/dashboard/sources/${key.type}`}
+                href={`/dashboard/sources/${key.source_slug}`}
                 className="flex h-14 border-b border-l border-r border-border hover:bg-muted/50 transition-colors"
               >
                 <div className="flex-1 shrink-0 flex items-center px-3">
