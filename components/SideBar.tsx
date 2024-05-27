@@ -21,11 +21,11 @@ import {
 } from './Icons'
 
 const links = [
-  { href: '/dashboard', label: 'Home', icon: HomeIcon },
-  { href: '/dashboard/connections', label: 'Connections', icon: UsersIcon },
-  { href: '/dashboard/sources', label: 'Sources', icon: PackageIcon },
-  { href: '/dashboard/analytics', label: 'Analytics', icon: LineChartIcon },
-  { href: '/dashboard/settings', label: 'Settings', icon: SettingsIcon },
+  { href: '/home', label: 'Home', icon: HomeIcon },
+  { href: '/connections', label: 'Connections', icon: UsersIcon },
+  { href: '/sources', label: 'Sources', icon: PackageIcon },
+  { href: '/analytics', label: 'Analytics', icon: LineChartIcon },
+  { href: '/settings', label: 'Settings', icon: SettingsIcon },
 ]
 
 export default function SideBar() {
@@ -49,9 +49,9 @@ export default function SideBar() {
             {links.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={`/dashboard${link.href}`}
                 className={`flex items-center gap-4 px-4 py-2 transition-all text-primary/90 hover:bg-primary/20 ${
-                  pathname === link.href
+                  pathname.includes(link.href)
                     ? 'bg-primary/20 border-l-4 border-purple-700 pl-3'
                     : null
                 }`}

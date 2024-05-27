@@ -37,17 +37,34 @@ create trigger on_auth_user_created
 
 
 
--- Create API Keys Table
-create table api_keys (
+-- Create Sources Table
+create table sources (
   id uuid default uuid_generate_v4() primary key,
   user_id uuid references users(id) on delete cascade,
+  source_name text not null,
   api_key varchar(255) unique not null,
+  type text not null,
+  connection_type text not null,
+  category text not null,
+  destination text,
+  website_url text,
+  created_at timestamp with time zone default current_timestamp
+);
+
+-- Create Events Table
+create table javascript_events (
+  id uuid default uuid_generate_v4() primary key,
+  source_id uuid references sources(id) on delete cascade,
+  user_id uuid references users(id) on delete cascade,
+  event_name varchar(255) not null,
+  event_data jsonb not null,
   created_at timestamp with time zone default current_timestamp
 );
 
 -- Create Events Table
 create table events (
   id uuid default uuid_generate_v4() primary key,
+  source_id references sources(id) on delete cascade,
   user_id uuid references users(id) on delete cascade,
   event_name varchar(255) not null,
   event_data jsonb not null,
@@ -72,17 +89,21 @@ create table logs (
   created_at timestamp with time zone default current_timestamp
 );
 
-alter table api_keys enable row level security;
+alter table sources enable row level security;
 alter table events enable row level security;
+alter table javascript_events enable row level security;
 alter table integrations enable row level security;
 alter table logs enable row level security;
 
-create policy select_api_keys on api_keys for select using (auth.uid() = user_id);
-create policy insert_api_keys on api_keys for insert with check (auth.uid() = user_id);
-create policy delete_api_keys on api_keys for delete using (auth.uid() = user_id);
+create policy select_sources on sources for select using (auth.uid() = user_id);
+create policy insert_sources on sources for insert with check (auth.uid() = user_id);
+create policy delete_sources on sources for delete using (auth.uid() = user_id);
 
 create policy select_events on events for select using (auth.uid() = user_id);
 create policy insert_events on events for insert with check (auth.uid() = user_id);
+
+create policy select_javascript_events on javascript_events for select using (auth.uid() = user_id);
+create policy insert_javascript_events on javascript_events for insert with check (auth.uid() = user_id);
 
 create policy select_integrations on integrations for select using (auth.uid() = user_id);
 create policy insert_integrations on integrations for insert with check (auth.uid() = user_id);
