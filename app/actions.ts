@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-
+import { headers } from 'next/headers';
 import { createClient } from '@/utils/supabase/server'
 
 export async function login(formData: FormData) {
@@ -43,6 +43,24 @@ export async function signup(formData: FormData) {
 
   revalidatePath('/', 'layout')
   redirect('/')
+}
+
+export async function signInGitHub() {
+  const supabase = createClient();
+  const origin = headers().get('origin');
+
+  const { error, data } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+    },
+  });
+
+  if (error) {
+    console.log(error);
+  } else {
+    return redirect(data.url);
+  }
 }
 
 export async function signOut() {

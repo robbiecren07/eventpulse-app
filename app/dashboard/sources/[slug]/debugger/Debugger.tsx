@@ -15,7 +15,7 @@ interface Event {
   created_at: string
 }
 
-export default function Debugger(sourceSlug: Props) {
+export default function Debugger({ sourceSlug }: Props) {
   const supabase = createClient()
 
   const [events, setEvents] = useState<Event[]>([])
@@ -26,7 +26,7 @@ export default function Debugger(sourceSlug: Props) {
       const { data, error } = await supabase
         .from('javascript_events')
         .select('*')
-        .eq('source_slug', sourceSlug.sourceSlug)
+        .eq('source_slug', sourceSlug)
         .order('created_at', { ascending: false })
         .limit(10)
 
@@ -50,7 +50,7 @@ export default function Debugger(sourceSlug: Props) {
           event: 'INSERT',
           schema: 'public',
           table: 'javascript_events',
-          filter: `source_slug=eq.${sourceSlug.sourceSlug}`,
+          filter: `source_slug=eq.${sourceSlug}`,
         },
         (payload) => {
           setEvents((prevEvents) => [payload.new as Event, ...prevEvents])

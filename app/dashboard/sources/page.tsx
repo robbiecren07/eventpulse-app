@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { PlusIcon } from '@/components/Icons'
 import { LinkButton } from '@/components/ui/link-button'
@@ -6,15 +5,7 @@ import { LinkButton } from '@/components/ui/link-button'
 export default async function Sources() {
   const supabase = createClient()
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect('/')
-  }
-
-  const { data: sources } = await supabase
-    .from('sources')
-    .select('*')
-    .eq('user_id', data.user.id)
+  const { data: sources } = await supabase.from('sources').select('*')
 
   return (
     <div className="w-full max-w-6xl h-full flex flex-1 flex-col gap-4 lg:gap-8 p-4 lg:p-12">

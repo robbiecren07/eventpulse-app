@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import UpdateButton from '@/components/UpdateButton'
 import {
@@ -14,21 +13,20 @@ import { LinkButton } from '@/components/ui/link-button'
 export default async function Home() {
   const supabase = createClient()
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect('/')
-  }
+  const { data: sources } = await supabase.from('sources').select('*')
 
-  const { data: sources } = await supabase
-    .from('sources')
-    .select('*')
-    .eq('user_id', data.user.id)
+  const { data: users } = await supabase
+    .from('users')
+    .select('full_name, email')
+    .single()
 
   return (
     <div className="w-full max-w-6xl h-full flex flex-1 flex-col gap-4 lg:gap-8 p-4 lg:p-12">
       <div className="flex gap-3 justify-between">
         <div className="flex flex-col gap-2">
-          <h1 className="text-xl font-semibold">{data.user.email}</h1>
+          <h1 className="text-xl font-semibold">
+            {users && users.full_name ? users.full_name : users?.email}
+          </h1>
           {sources && sources.length > 0 ? (
             <p>It&lsquo;s a great day-ta send data 📨</p>
           ) : (

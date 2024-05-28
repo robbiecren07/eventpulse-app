@@ -15,6 +15,20 @@ const nextConfig = {
       },
     ],
   },
+  redirects() {
+    return [
+      {
+        source: '/dashboard',
+        destination: '/dashboard/home',
+        permanent: false,
+      },
+      {
+        source: '/dashboard/sources/setup',
+        destination: '/dashboard/sources/setup/javascript',
+        permanent: false,
+      },
+    ]
+  },
   async headers() {
     return [
       {

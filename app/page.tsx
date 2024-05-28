@@ -1,7 +1,15 @@
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { login, signup } from './actions'
+import { login, signInGitHub, signup } from './actions'
+import type { Metadata } from 'next'
+import { GitHubIcon } from '@/components/Icons'
+
+export const metadata: Metadata = {
+  title: 'Login - EventPluse',
+  description:
+    'EventPulse is a JavaScript SDK designed to track events on your website.',
+}
 
 export default function Home() {
   return (
@@ -44,6 +52,15 @@ export default function Home() {
               </Button>
             </div>
           </div>
+        </form>
+        <form className="w-full max-w-[400px] flex pt-6">
+          <Button
+            className="w-full flex gap-4 items-center justify-center"
+            formAction={signInGitHub}
+          >
+            <GitHubIcon className="w-6 h-6" />
+            Sign in with GitHub
+          </Button>
         </form>
       </main>
     </>
