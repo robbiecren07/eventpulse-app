@@ -9,9 +9,9 @@ export default async function DashboardLayout({
   return (
     <section className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
       <SideBar />
-      <div className="flex flex-col">
+      <div className="flex flex-col overflow-hidden">
         <Header />
-        <main className="w-full">{children}</main>
+        <main className="w-full flex-1">{children}</main>
       </div>
     </section>
   )
