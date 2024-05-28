@@ -28,7 +28,11 @@ const links = [
   { href: '/settings', label: 'Settings', icon: SettingsIcon },
 ]
 
-export default function SideBar() {
+interface SideBarProps {
+  userSlug: string
+}
+
+export default function SideBar({ userSlug }: SideBarProps) {
   const pathname = usePathname()
 
   return (
@@ -49,7 +53,7 @@ export default function SideBar() {
             {links.map((link) => (
               <Link
                 key={link.href}
-                href={`/dashboard${link.href}`}
+                href={`/u/${userSlug}${link.href}`}
                 className={`flex items-center gap-4 px-4 py-2 transition-all text-primary/90 hover:bg-primary/20 ${
                   pathname.includes(link.href)
                     ? 'bg-primary/20 border-l-4 border-purple-700 pl-3'

@@ -22,7 +22,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard/home')
+  redirect('/u')
 }
 
 export async function signup(formData: FormData) {
@@ -51,6 +51,24 @@ export async function signInGitHub() {
 
   const { error, data } = await supabase.auth.signInWithOAuth({
     provider: 'github',
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+    },
+  });
+
+  if (error) {
+    console.log(error);
+  } else {
+    return redirect(data.url);
+  }
+}
+
+export async function signInGoogle() {
+  const supabase = createClient();
+  const origin = headers().get('origin');
+
+  const { error, data } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
     options: {
       redirectTo: `${origin}/auth/callback`,
     },

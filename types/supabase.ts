@@ -134,6 +134,7 @@ export interface Database {
           full_name: string | null;
           avatar_url: string | null;
           email: string;
+          user_slug: string;
         };
         Insert: {
           id: string;
@@ -141,6 +142,7 @@ export interface Database {
           full_name?: string | null;
           avatar_url?: string | null;
           email: string;
+          user_slug?: string;
         };
         Update: {
           id?: string;
@@ -148,6 +150,7 @@ export interface Database {
           full_name?: string | null;
           avatar_url?: string | null;
           email?: string;
+          user_slug?: string;
         };
       };
     };

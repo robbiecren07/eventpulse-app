@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from './ui/button'
-import { signOut } from '@/app/actions'
+import { signOut } from '@/app/login/actions'
 import Image from 'next/image'
 import {
   DropdownMenuTrigger,

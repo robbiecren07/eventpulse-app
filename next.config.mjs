@@ -18,8 +18,8 @@ const nextConfig = {
   redirects() {
     return [
       {
-        source: '/dashboard',
-        destination: '/dashboard/home',
+        source: '/',
+        destination: '/u',
         permanent: false,
       },
       {
