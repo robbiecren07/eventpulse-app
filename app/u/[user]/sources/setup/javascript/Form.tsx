@@ -20,28 +20,15 @@ export default function Form() {
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Name *</Label>
           <p className="text-xs text-muted-foreground">
-            Identifies this source within your workspace, and typically includes
-            the product area and environment. E.g. Website Prod or App Dev.
+            Identifies this source within your workspace, and typically includes the product area and environment. E.g. Website Prod or App
+            Dev.
           </p>
-          <Input
-            id="name"
-            type="text"
-            name="name"
-            placeholder="JavaScript"
-            required
-          />
+          <Input id="name" type="text" name="name" placeholder="JavaScript" required />
         </div>
         <div className="flex flex-col gap-2">
           <Label htmlFor="website">Website URL</Label>
-          <p className="text-xs text-muted-foreground">
-            The full URL where you will install eventPulse.js.
-          </p>
-          <Input
-            id="website"
-            type="text"
-            name="website"
-            placeholder="https://example.com"
-          />
+          <p className="text-xs text-muted-foreground">The full URL where you will install eventPulse.js.</p>
+          <Input id="website" type="text" name="website" placeholder="https://example.com" />
         </div>
         <Button type="submit">Add Source</Button>
       </div>

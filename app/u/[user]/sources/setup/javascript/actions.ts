@@ -15,7 +15,7 @@ export async function createJavaScriptSource(formData: FormData) {
 
   const apiKey = uuidv4()
 
-  const  { error } = await supabase.from('sources').insert({
+  const { error } = await supabase.from('sources').insert({
     user_id: user.id,
     source_name: formData.get('name') as string || 'JavaScript',
     api_key: apiKey,

@@ -3,29 +3,15 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  Card,
-} from '@/components/ui/card'
-import {
-  HomeIcon,
-  Package2Icon,
-  BellIcon,
-  LineChartIcon,
-  PackageIcon,
-  SettingsIcon,
-  UsersIcon,
-} from './Icons'
+import { CardTitle, CardDescription, CardHeader, CardContent, Card } from '@/components/ui/card'
+import { HomeIcon, Package2Icon, BellIcon, LineChartIcon, PackageIcon, SettingsIcon, UsersIcon } from './Icons'
 
 const links = [
   { href: '/home', label: 'Home', icon: HomeIcon },
-  { href: '/connections', label: 'Connections', icon: UsersIcon },
+  { href: '/overview', label: 'Connections', icon: UsersIcon },
   { href: '/sources', label: 'Sources', icon: PackageIcon },
-  { href: '/analytics', label: 'Analytics', icon: LineChartIcon },
-  { href: '/settings', label: 'Settings', icon: SettingsIcon },
+  { href: '/destinations', label: 'Destinations', icon: LineChartIcon },
+  // { href: '/settings', label: 'Settings', icon: SettingsIcon },
 ]
 
 interface SideBarProps {
@@ -55,9 +41,7 @@ export default function SideBar({ userSlug }: SideBarProps) {
                 key={link.href}
                 href={`/u/${userSlug}${link.href}`}
                 className={`flex items-center gap-4 px-4 py-2 transition-all text-primary/90 hover:bg-primary/20 ${
-                  pathname.includes(link.href)
-                    ? 'bg-primary/20 border-l-4 border-purple-700 pl-3'
-                    : null
+                  pathname.includes(link.href) ? 'bg-primary/20 border-l-4 border-purple-700 pl-3' : null
                 }`}
               >
                 <link.icon className="h-4 w-4" />
@@ -70,9 +54,7 @@ export default function SideBar({ userSlug }: SideBarProps) {
           <Card>
             <CardHeader className="pb-4">
               <CardTitle>Upgrade to Pro</CardTitle>
-              <CardDescription>
-                Unlock all features and get unlimited access to our support team
-              </CardDescription>
+              <CardDescription>Unlock all features and get unlimited access to our support team</CardDescription>
             </CardHeader>
             <CardContent>
               <Button className="w-full" size="sm">

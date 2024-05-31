@@ -1,4 +1,5 @@
 import { Inter as FontSans } from 'next/font/google'
+import { Toaster } from '@/components/ui/toaster'
 import './globals.css'
 
 const fontSans = FontSans({
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={fontSans.variable}>{children}</body>
+      <body className={fontSans.variable}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }

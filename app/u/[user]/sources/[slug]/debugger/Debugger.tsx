@@ -23,9 +23,7 @@ export default function Debugger({ sourceSlug }: Props) {
 
   const [events, setEvents] = useState<Event[]>([])
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
-  const [formattedPrettyCode, setFormattedPrettyCode] = useState<string | null>(
-    null
-  )
+  const [formattedPrettyCode, setFormattedPrettyCode] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchInitialEvents = async () => {
@@ -83,9 +81,7 @@ export default function Debugger({ sourceSlug }: Props) {
     .join(',\n  ')} 
 })`)
       } else {
-        setFormattedPrettyCode(`eventPulse.track('${
-          selectedEvent.event_name
-        }', {
+        setFormattedPrettyCode(`eventPulse.track('${selectedEvent.event_name}', {
   ${Object.entries(selectedEvent.event_data.properties)
     .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
     .join(',\n  ')}
@@ -136,18 +132,12 @@ export default function Debugger({ sourceSlug }: Props) {
                     <div className="flex items-center">
                       <div className="basis-28 flex gap-3 items-center">
                         <CheckMarkIcon className="w-4 h-4 text-green-600" />
-                        <span className="uppercase">
-                          {event.event_data.type}
-                        </span>
+                        <span className="uppercase">{event.event_data.type}</span>
                       </div>
                       <span className="flex-1 shrink-0 flex items-center font-semibold">
-                        {event.event_data.type === 'page'
-                          ? event.event_data.context.page.path
-                          : event.event_name}
+                        {event.event_data.type === 'page' ? event.event_data.context.page.path : event.event_name}
                       </span>
-                      <span className="basis-36 flex items-center justify-end">
-                        {formattedDate}
-                      </span>
+                      <span className="basis-36 flex items-center justify-end">{formattedDate}</span>
                     </div>
                   </li>
                 )
@@ -162,22 +152,16 @@ export default function Debugger({ sourceSlug }: Props) {
                   <CheckMarkIcon className="w-4 h-4 text-green-600" />
                   <div className="flex flex-col">
                     <span className="font-semibold">
-                      {selectedEvent.event_data.type === 'page'
-                        ? selectedEvent.event_data.context.page.path
-                        : selectedEvent.event_name}
+                      {selectedEvent.event_data.type === 'page' ? selectedEvent.event_data.context.page.path : selectedEvent.event_name}
                     </span>
                     <span>Allowed</span>
                   </div>
                 </div>
                 <div className="w-full flex flex-col">
-                  <div className="w-full flex px-6 py-2 border-b">
+                  <div className="w-full flex gap-1 items-center px-6 py-2 border-b">
                     <Button
                       variant="ghost"
-                      className={
-                        toggled === 'pretty'
-                          ? 'bg-accent text-accent-foreground'
-                          : ''
-                      }
+                      className={toggled === 'pretty' ? 'bg-accent text-accent-foreground' : ''}
                       size="sm"
                       onClick={() => handleToggle('pretty')}
                     >
@@ -186,11 +170,7 @@ export default function Debugger({ sourceSlug }: Props) {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className={
-                        toggled === 'raw'
-                          ? 'bg-accent text-accent-foreground'
-                          : ''
-                      }
+                      className={toggled === 'raw' ? 'bg-accent text-accent-foreground' : ''}
                       onClick={() => handleToggle('raw')}
                     >
                       Raw
@@ -214,11 +194,7 @@ export default function Debugger({ sourceSlug }: Props) {
                         height="70vh"
                         theme="vs-dark"
                         defaultLanguage="javascript"
-                        value={JSON.stringify(
-                          selectedEvent.event_data,
-                          null,
-                          2
-                        )}
+                        value={JSON.stringify(selectedEvent.event_data, null, 2)}
                         options={{
                           readOnly: true,
                           minimap: { enabled: false },

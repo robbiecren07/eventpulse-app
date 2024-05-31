@@ -5,8 +5,7 @@ import { GitHubIcon, GoogleIcon } from '@/components/Icons'
 
 export const metadata: Metadata = {
   title: 'Login - EventPluse',
-  description:
-    'EventPulse is a JavaScript SDK designed to track events on your website.',
+  description: 'EventPulse is a JavaScript SDK designed to track events on your website.',
 }
 
 export default function Home() {
@@ -16,24 +15,16 @@ export default function Home() {
         <div className="w-full max-w-[400px] flex flex-col gap-3 mt-12">
           <div className="space-y-2 text-center">
             <h1 className="text-3xl font-bold">Welcome!</h1>
-            <p className="text-gray-200">
-              Please select an OAuth provider to sign in with.
-            </p>
+            <p className="text-gray-200">Please select an OAuth provider to sign in with.</p>
           </div>
           <form className="w-full pt-4">
-            <Button
-              className="w-full flex gap-4 items-center justify-center"
-              formAction={signInGitHub}
-            >
+            <Button className="w-full flex gap-4 items-center justify-center" formAction={signInGitHub}>
               <GitHubIcon className="w-6 h-6" />
               Sign in with GitHub
             </Button>
           </form>
           <form className="w-full">
-            <Button
-              className="w-full flex gap-4 items-center justify-center"
-              formAction={signInGoogle}
-            >
+            <Button className="w-full flex gap-4 items-center justify-center" formAction={signInGoogle}>
               <GoogleIcon className="w-6 h-6" />
               Sign in with Google
             </Button>

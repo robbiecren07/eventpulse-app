@@ -35,4 +35,14 @@
   body {
     @apply bg-background bg-home text-foreground min-h-screen font-sans antialiased;
   }
+  h1 {
+    @apply text-xl font-semibold;
+  }
+}
+
+.snippet {
+  @apply text-xs border rounded-sm overflow-hidden;
+}
+.snippet pre {
+  @apply !p-3;
 }

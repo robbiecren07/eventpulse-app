@@ -1,32 +1,21 @@
 import { createClient } from '@/utils/supabase/server'
 import UpdateButton from '@/components/UpdateButton'
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  Card,
-} from '@/components/ui/card'
+import { CardTitle, CardDescription, CardHeader, CardContent, Card } from '@/components/ui/card'
 import { PlusIcon } from '@/components/Icons'
 import { LinkButton } from '@/components/ui/link-button'
 
-export default async function Home() {
+export default async function Home({ params }: { params: { user: string } }) {
   const supabase = createClient()
 
   const { data: sources } = await supabase.from('sources').select('*')
 
-  const { data: users } = await supabase
-    .from('users')
-    .select('full_name, email')
-    .single()
+  const { data: users } = await supabase.from('users').select('full_name, email').single()
 
   return (
     <div className="w-full max-w-6xl h-full flex flex-1 flex-col gap-4 lg:gap-8 p-4 lg:p-12">
       <div className="flex gap-3 justify-between">
         <div className="flex flex-col gap-2">
-          <h1 className="text-xl font-semibold">
-            {users && users.full_name ? users.full_name : users?.email}
-          </h1>
+          <h1 className="text-xl font-semibold">{users && users.full_name ? users.full_name : users?.email}</h1>
           {sources && sources.length > 0 ? (
             <p>It&lsquo;s a great day-ta send data 📨</p>
           ) : (
@@ -48,13 +37,9 @@ export default async function Home() {
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-4">
               <CardDescription className="text-center">
-                Sources collect data from your website or app. Add a source to
-                start tracking your data with EventPluse.
+                Sources collect data from your website or app. Add a source to start tracking your data with EventPluse.
               </CardDescription>
-              <LinkButton
-                href="/dashboard/sources/setup/javascript"
-                className="gap-1"
-              >
+              <LinkButton href={`/u/${params.user}/sources/setup/javascript`} className="gap-1">
                 <PlusIcon className="w-3 h-3" />
                 Add sources
               </LinkButton>
@@ -66,10 +51,9 @@ export default async function Home() {
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-4">
               <CardDescription className="text-center">
-                Destinations are where you want to send your data to. Connect
-                apps to help you perform various use cases..
+                Destinations are where you want to send your data to. Connect apps to help you perform various use cases..
               </CardDescription>
-              <LinkButton href="/dashboard/destinations" className="gap-1">
+              <LinkButton href={`/u/${params.user}/destinations`} className="gap-1">
                 <PlusIcon className="w-3 h-3" />
                 Add destinations
               </LinkButton>

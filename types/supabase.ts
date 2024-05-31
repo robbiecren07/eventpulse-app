@@ -45,7 +45,7 @@ export interface Database {
           type: string;
           connection_type: string;
           category: string;
-          destination: string | null;
+          destination: Json;
           website_url: string | null;
           created_at: string | null;
         };
@@ -58,8 +58,8 @@ export interface Database {
           type: string;
           connection_type: string;
           category: string;
-          destination?: string | null;
-          website_url: string | null;
+          destination?: Json;
+          website_url?: string | null;
           created_at?: string | null;
         };
         Update: {
@@ -71,9 +71,9 @@ export interface Database {
           type?: string;
           connection_type?: string;
           category?: string;
-          destination?: string | null;
-          website_url: string | null;
-          created_at: string | null;
+          destination?: Json;
+          website_url?: string | null;
+          created_at?: string | null;
         };
       };
       events: {
