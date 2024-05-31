@@ -54,7 +54,7 @@ export default async function Slug({
 
   let isWithin24Hours = false
   if (event && event.length > 0) {
-    isWithin24Hours = isEventWithin24Hours(event[0].created_at)
+    isWithin24Hours = isEventWithin24Hours(event[0]?.created_at ?? '')
   }
 
   const codeString = `<script>\n  ${data}  eventPulse.load('${source.api_key}');\n  eventPulse.page();\n</script>`

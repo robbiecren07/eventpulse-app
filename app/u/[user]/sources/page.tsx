@@ -66,7 +66,7 @@ export default async function Sources({ params }: { params: { user: string } }) 
           sources.map((key, i) => {
             let isWithin24Hours = false
             if (events && events.length > 0) {
-              isWithin24Hours = isEventWithin24Hours(events[i].created_at)
+              isWithin24Hours = isEventWithin24Hours(events[i]?.created_at ?? '')
             }
             return (
               <a
@@ -96,7 +96,7 @@ export default async function Sources({ params }: { params: { user: string } }) 
                   <span className="text-sm">{key.category}</span>
                 </div>
                 <div className="basis-48 flex items-center px-3">
-                  <span className="text-sm">{key.destination || 'No destination'}</span>
+                  <span className="text-sm">{key.destination ? 'BigQuery' : 'No destination'}</span>
                 </div>
               </a>
             )
