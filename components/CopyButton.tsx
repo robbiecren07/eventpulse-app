@@ -19,6 +19,7 @@ export default function CopyButton({ codeString, btnText, toastText }: CopyButto
         onClick={() => {
           toast({
             title: toastText,
+            duration: 5000,
           })
         }}
       >

@@ -1,13 +1,15 @@
 'use server'
 
-import { createClient } from "@/utils/supabase/server"
-import { redirect } from "next/navigation"
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 import { v4 as uuidv4 } from 'uuid'
 
 export async function createJavaScriptSource(formData: FormData) {
   const supabase = createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (!user) {
     throw new Error('User not found')
@@ -17,7 +19,7 @@ export async function createJavaScriptSource(formData: FormData) {
 
   const { error } = await supabase.from('sources').insert({
     user_id: user.id,
-    source_name: formData.get('name') as string || 'JavaScript',
+    source_name: (formData.get('name') as string) || 'JavaScript',
     api_key: apiKey,
     type: 'javascript',
     connection_type: 'Event Streams',

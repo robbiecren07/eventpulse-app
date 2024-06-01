@@ -1,10 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server'
+'use server'
+
+import { revalidatePath } from 'next/cache'
 import { createServiceClient } from '@/utils/supabase/service'
 import { BigQuery } from '@google-cloud/bigquery'
 import { Destination } from '@/types/custom'
 
-export async function POST(req: NextRequest) {
-  const { sourceSlug } = await req.json()
+export async function syncData(
+  prevState: {
+    message: string
+  },
+  formData: FormData
+) {
+  const sourceSlug = formData.get('source_slug') as string
+  const path = formData.get('path') as string
 
   const supabase = createServiceClient()
 
@@ -16,15 +24,15 @@ export async function POST(req: NextRequest) {
       .eq('source_slug', sourceSlug)
       .single()
 
-    if (sourceError || !source) {
-      throw new Error('Invalid source slug or source not found')
+    if (sourceError) {
+      return { message: 'Failed to connect to BigQuery.' }
     }
 
     const destination = source.destination as unknown as Destination
     const { projectId, datasetId, tableId, credentials } = destination
 
     if (!credentials) {
-      throw new Error('BigQuery credentials not found')
+      return { message: 'BigQuery credentials not found' }
     }
 
     // Initialize BigQuery client with user-provided credentials
@@ -34,7 +42,10 @@ export async function POST(req: NextRequest) {
     })
 
     // Define the schema
-    const schema = [{ name: 'event_data', type: 'JSON', mode: 'REQUIRED' }]
+    const schema = [
+      { name: 'event_name', type: 'STRING', mode: 'REQUIRED' },
+      { name: 'event_data', type: 'JSON', mode: 'REQUIRED' },
+    ]
 
     // Check if table exists, create if not
     const dataset = bigquery.dataset(datasetId)
@@ -51,19 +62,27 @@ export async function POST(req: NextRequest) {
       .eq('source_slug', sourceSlug)
 
     if (eventsError) {
-      throw new Error(eventsError.message)
+      return { message: 'No events found to sync.' }
     }
 
     // Insert each event into BigQuery
     const rows = events.map((event) => ({
-      event_data: event.event_data,
+      event_name: event.event_name,
+      event_data: JSON.stringify(event.event_data),
     }))
 
-    await bigquery.dataset(datasetId).table(tableId).insert(rows)
-
-    return NextResponse.json({ message: 'Events sent to BigQuery successfully!' }, { status: 200 })
-  } catch (error) {
-    console.error('Error sending events to BigQuery:', error)
-    return NextResponse.json({ error: error }, { status: 500 })
+    try {
+      await dataset.table(tableId).insert(rows)
+      revalidatePath(path)
+      return { message: 'Events sent to BigQuery successfully!' }
+    } catch (error: any) {
+      if (error.name === 'PartialFailureError') {
+        return { message: `Partial failure occurred: ${JSON.stringify(error, null, 2)}` }
+      } else {
+        return { message: `Error sending events to BigQuery: ${error}` }
+      }
+    }
+  } catch (e) {
+    return { message: `Error sending events to BigQuery: ${e}` }
   }
 }

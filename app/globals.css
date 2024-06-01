@@ -33,7 +33,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background bg-home text-foreground min-h-screen font-sans antialiased;
+    @apply bg-background bg-home text-foreground h-screen font-sans antialiased overflow-hidden;
   }
   h1 {
     @apply text-xl font-semibold;

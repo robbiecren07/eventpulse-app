@@ -74,6 +74,7 @@ export default function Debugger({ sourceSlug }: Props) {
 
   useEffect(() => {
     if (selectedEvent) {
+      console.log(selectedEvent.event_data)
       if (selectedEvent.event_data.type === 'page') {
         setFormattedPrettyCode(`eventPulse.page({ 
   ${Object.entries(selectedEvent.event_data.context.page)
@@ -152,7 +153,9 @@ export default function Debugger({ sourceSlug }: Props) {
                   <CheckMarkIcon className="w-4 h-4 text-green-600" />
                   <div className="flex flex-col">
                     <span className="font-semibold">
-                      {selectedEvent.event_data.type === 'page' ? selectedEvent.event_data.context.page.path : selectedEvent.event_name}
+                      {selectedEvent.event_data.type === 'page'
+                        ? selectedEvent.event_data.context.page.path
+                        : selectedEvent.event_name}
                     </span>
                     <span>Allowed</span>
                   </div>

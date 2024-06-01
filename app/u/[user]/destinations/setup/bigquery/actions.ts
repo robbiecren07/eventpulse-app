@@ -10,7 +10,6 @@ export async function addDestination(
   },
   formData: FormData
 ) {
-
   const schema = z.object({
     name: z.string().min(1),
     projectID: z.string().min(1),
@@ -34,11 +33,11 @@ export async function addDestination(
   const data = parse.data
 
   // Parse credentials JSON string
-  let parsedCredentials;
+  let parsedCredentials
   try {
-    parsedCredentials = JSON.parse(data.credentials);
+    parsedCredentials = JSON.parse(data.credentials)
   } catch (e) {
-    return { message: 'Invalid JSON in credentials' };
+    return { message: 'Invalid JSON in credentials' }
   }
 
   const sourceID = formData.get('sourceID') as string
@@ -52,15 +51,12 @@ export async function addDestination(
     datasetId: data.datasetID,
     tableId: data.tableID,
     credentials: parsedCredentials,
-  };
+  }
 
   try {
     const supabase = createServiceClient()
 
-    const { error } = await supabase
-      .from('sources')
-      .update({ destination: destinationData })
-      .eq('id', sourceID)
+    const { error } = await supabase.from('sources').update({ destination: destinationData }).eq('id', sourceID)
 
     if (error) {
       return { message: 'Failed to connect to BigQuery.' }

@@ -12,18 +12,24 @@ export async function POST(req: NextRequest) {
   const supabase = createServiceClient()
 
   // Verify API Key
-  const { data: user, error: userError } = await supabase
-    .from('sources')
-    .select('*')
-    .eq('api_key', apiKey)
-    .single()
+  const { data: user, error: userError } = await supabase.from('sources').select('*').eq('api_key', apiKey).single()
 
   if (userError || !user) {
-    return NextResponse.json({ error: 'Invalid API key', details: userError ? userError.message : 'No user found' }, { status: 401 })
+    return NextResponse.json(
+      {
+        error: 'Invalid API key',
+        details: userError ? userError.message : 'No user found',
+      },
+      { status: 401 }
+    )
   }
 
   // Get IP address with fallback to headers
-  const ip = req.ip || req.headers.get('x-forwarded-for')?.split(',').shift()?.trim() || req.headers.get('x-real-ip') || 'unknown'
+  const ip =
+    req.ip ||
+    req.headers.get('x-forwarded-for')?.split(',').shift()?.trim() ||
+    req.headers.get('x-real-ip') ||
+    'unknown'
 
   // Get geo information with fallbacks
   const geo = {
@@ -44,17 +50,21 @@ export async function POST(req: NextRequest) {
   }
 
   // Insert event into database
-  const { error: insertError } = await supabase
-    .from('javascript_events')
-    .insert({
-        source_id: user.id,
-        user_id: user.user_id,
-        event_name: event,
-        event_data: rawData
-      })
+  const { error: insertError } = await supabase.from('javascript_events').insert({
+    source_id: user.id,
+    user_id: user.user_id,
+    event_name: event,
+    event_data: rawData,
+  })
 
   if (insertError) {
-    return NextResponse.json({ error: 'Error storing event data', details: insertError ? insertError.message : 'No user found' }, { status: 500 })
+    return NextResponse.json(
+      {
+        error: 'Error storing event data',
+        details: insertError ? insertError.message : 'No user found',
+      },
+      { status: 500 }
+    )
   }
 
   return NextResponse.json({ message: 'Event stored successfully' }, { status: 200 })

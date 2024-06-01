@@ -63,20 +63,20 @@ export default async function Sources({ params }: { params: { user: string } }) 
         </div>
 
         {sources && sources.length > 0 ? (
-          sources.map((key, i) => {
+          sources.map((source, i) => {
             let isWithin24Hours = false
             if (events && events.length > 0) {
               isWithin24Hours = isEventWithin24Hours(events[i]?.created_at ?? '')
             }
             return (
               <a
-                key={key.api_key}
-                href={`/u/${params.user}/sources/${key.source_slug}`}
+                key={source.id}
+                href={`/u/${params.user}/sources/${source.source_slug}`}
                 className="flex h-14 border-b border-l border-r border-border hover:bg-muted/50 transition-colors"
               >
                 <div className="flex-1 shrink-0 flex items-center gap-3 px-3">
                   <Image className="w-6 h-6" src={jsImage} alt="JavaScript logo" />
-                  <span className="text-sm capitalize">{key.source_name}</span>
+                  <span className="text-sm capitalize">{source.source_name}</span>
                 </div>
                 <div className="basis-48 flex items-center gap-3 px-3">
                   <span
@@ -90,13 +90,13 @@ export default async function Sources({ params }: { params: { user: string } }) 
                   <span className="text-sm">{isWithin24Hours ? 'Receiving data' : 'No recent data'}</span>
                 </div>
                 <div className="basis-48 flex items-center px-3">
-                  <span className="text-sm">{key.connection_type}</span>
+                  <span className="text-sm">{source.connection_type}</span>
                 </div>
                 <div className="basis-48 flex items-center px-3">
-                  <span className="text-sm">{key.category}</span>
+                  <span className="text-sm">{source.category}</span>
                 </div>
                 <div className="basis-48 flex items-center px-3">
-                  <span className="text-sm">{key.destination ? 'BigQuery' : 'No destination'}</span>
+                  <span className="text-sm">{source.destination ? 'BigQuery' : 'No destination'}</span>
                 </div>
               </a>
             )

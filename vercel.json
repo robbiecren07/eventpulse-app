@@ -1,9 +1,3 @@
 {
-  "trailingSlash": false,
-  "crons": [
-    {
-      "path": "/api/bigquery-cron",
-      "schedule": "0 9 * * 1"
-    }
-  ]
+  "trailingSlash": false
 }
