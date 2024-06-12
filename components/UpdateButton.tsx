@@ -22,9 +22,7 @@ const UpdateButton = () => {
       setButtonText('Updated just now')
       setIsDisabled(true)
     } else {
-      setButtonText(
-        `Updated ${timeElapsed} minute${timeElapsed > 1 ? 's' : ''} ago`
-      )
+      setButtonText(`Updated ${timeElapsed} minute${timeElapsed > 1 ? 's' : ''} ago`)
       setIsDisabled(false)
     }
   }, [timeElapsed])

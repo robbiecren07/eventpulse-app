@@ -1,18 +1,18 @@
-import { NextResponse, type NextRequest } from 'next/server';
-import { createClient } from './utils/supabase/middleware';
+import { NextResponse, type NextRequest } from 'next/server'
+import { createClient } from './utils/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
-  const { supabase, response } = createClient(request);
+  const { supabase, response } = createClient(request)
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await supabase.auth.getUser()
 
   if (!user) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL('/login', request.url))
   }
-  return response;
+  return response
 }
 
 export const config = {
   matcher: '/u/:path*',
-};
+}

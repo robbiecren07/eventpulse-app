@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client'
 import { CheckMarkIcon } from '@/components/Icons'
 import { Button } from '@/components/ui/button'
 import Editor from '@monaco-editor/react'
+import { isEventWithin24Hours } from '@/lib/utils'
 
 interface Props {
   sourceSlug: string
@@ -74,7 +75,6 @@ export default function Debugger({ sourceSlug }: Props) {
 
   useEffect(() => {
     if (selectedEvent) {
-      console.log(selectedEvent.event_data)
       if (selectedEvent.event_data.type === 'page') {
         setFormattedPrettyCode(`eventPulse.page({ 
   ${Object.entries(selectedEvent.event_data.context.page)
@@ -91,9 +91,11 @@ export default function Debugger({ sourceSlug }: Props) {
     }
   }, [selectedEvent])
 
+  const isWithin24Hours = isEventWithin24Hours(events[0]?.created_at ?? '')
+
   return (
     <div className="h-full flex overflow-x-hidden overflow-y-auto">
-      {events.length === 0 ? (
+      {events.length === 0 || !isWithin24Hours ? (
         <div className="w-full flex justify-center items-center mt-14">
           <p className="text-center">
             No Data Flowing.
@@ -125,8 +127,8 @@ export default function Debugger({ sourceSlug }: Props) {
                 return (
                   <li
                     key={event.id}
-                    className={`cursor-pointer py-4 px-6 text-sm border-b hover:bg-muted transition-colors ${
-                      selectedEvent?.id === event.id ? 'bg-muted' : ''
+                    className={`cursor-pointer py-4 px-6 text-sm border-b hover:bg-secondary transition-colors ${
+                      selectedEvent?.id === event.id ? 'bg-secondary' : ''
                     }`}
                     onClick={() => setSelectedEvent(event)}
                   >
@@ -164,7 +166,7 @@ export default function Debugger({ sourceSlug }: Props) {
                   <div className="w-full flex gap-1 items-center px-6 py-2 border-b">
                     <Button
                       variant="ghost"
-                      className={toggled === 'pretty' ? 'bg-accent text-accent-foreground' : ''}
+                      className={toggled === 'pretty' ? 'bg-accent' : ''}
                       size="sm"
                       onClick={() => handleToggle('pretty')}
                     >
@@ -173,7 +175,7 @@ export default function Debugger({ sourceSlug }: Props) {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className={toggled === 'raw' ? 'bg-accent text-accent-foreground' : ''}
+                      className={toggled === 'raw' ? 'bg-accent' : ''}
                       onClick={() => handleToggle('raw')}
                     >
                       Raw
@@ -208,8 +210,13 @@ export default function Debugger({ sourceSlug }: Props) {
                 </div>
               </>
             ) : (
-              <div className="w-full h-14 border-b ">
-                <p>Select an event to view its details.</p>
+              <div className="w-full h-full flex justify-center items-center">
+                <div className="w-full max-w-xs">
+                  <h3 className="font-medium text-center">Select an Event</h3>
+                  <p className="text-sm text-accent-foreground text-center">
+                    Select an Event to view the code snippet (pretty view) or complete JSON payload (raw view).
+                  </p>
+                </div>
               </div>
             )}
           </div>

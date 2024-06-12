@@ -5,6 +5,8 @@ import Image from 'next/image'
 import jsImage from '@/public/javascript.png'
 import { DotIcon } from '@/components/Icons'
 import { isEventWithin24Hours } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { LockIcon } from 'lucide-react'
 
 async function getSourceData() {
   const supabase = createClient()
@@ -33,32 +35,44 @@ async function getSourceData() {
 export default async function Sources({ params }: { params: { user: string } }) {
   const { sources, events } = await getSourceData()
 
+  let upgradeAccount = false
+  if (sources && sources.length >= 2) {
+    upgradeAccount = true
+  }
+
   return (
-    <div className="w-full max-w-6xl h-full flex flex-1 flex-col gap-4 lg:gap-8 p-4 lg:p-12">
+    <div className="w-full h-full flex flex-1 flex-col gap-4 lg:gap-8 p-4 lg:p-12">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-semibold">My Sources</h1>
-        <LinkButton href={`/u/${params.user}/sources/setup/javascript`} className="gap-1">
-          <PlusIcon className="w-3 h-3" />
-          Add Source
-        </LinkButton>
+        {upgradeAccount ? (
+          <Button className="gap-1" disabled>
+            <LockIcon className="w-4 h-4" />
+            Add Source
+          </Button>
+        ) : (
+          <LinkButton href={`/u/${params.user}/sources/setup/javascript`} className="gap-1">
+            <PlusIcon className="w-3 h-3" />
+            Add Source
+          </LinkButton>
+        )}
       </div>
 
-      <div className="flex flex-col">
-        <div className="flex h-14 bg-muted/50 border-b border-border">
+      <div className="flex flex-col border rounded-sm">
+        <div className="flex h-14 bg-secondary">
           <div className="flex-1 shrink-0 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Name</span>
+            <span className="text-xs font-medium uppercase">Name</span>
           </div>
           <div className="basis-48 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Status</span>
+            <span className="text-xs font-medium uppercase">Status</span>
           </div>
           <div className="basis-48 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Connection Type</span>
+            <span className="text-xs font-medium uppercase">Connection Type</span>
           </div>
           <div className="basis-48 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Category</span>
+            <span className="text-xs font-medium uppercase">Category</span>
           </div>
           <div className="basis-48 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Destinations</span>
+            <span className="text-xs font-medium uppercase">Destinations</span>
           </div>
         </div>
 
@@ -72,7 +86,7 @@ export default async function Sources({ params }: { params: { user: string } }) 
               <a
                 key={source.id}
                 href={`/u/${params.user}/sources/${source.source_slug}`}
-                className="flex h-14 border-b border-l border-r border-border hover:bg-muted/50 transition-colors"
+                className="flex h-14 border-t text-accent-foreground hover:bg-secondary transition-colors"
               >
                 <div className="flex-1 shrink-0 flex items-center gap-3 px-3">
                   <Image className="w-6 h-6" src={jsImage} alt="JavaScript logo" />

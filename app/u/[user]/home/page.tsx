@@ -17,9 +17,9 @@ export default async function Home({ params }: { params: { user: string } }) {
         <div className="flex flex-col gap-2">
           <h1 className="text-xl font-semibold">{users && users.full_name ? users.full_name : users?.email}</h1>
           {sources && sources.length > 0 ? (
-            <p>It&lsquo;s a great day-ta send data 📨</p>
+            <p className="text-secondary-foreground">It&lsquo;s a great day-ta send data 📨</p>
           ) : (
-            <p>Life is about the journey and the Destination 🗺</p>
+            <p className="text-secondary-foreground">Life is about the journey and the Destination 🗺</p>
           )}
         </div>
         <div className="flex gap-3">
@@ -51,7 +51,8 @@ export default async function Home({ params }: { params: { user: string } }) {
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-4">
               <CardDescription className="text-center">
-                Destinations are where you want to send your data to. Connect apps to help you perform various use cases..
+                Destinations are where you want to send your data to. Connect apps to help you perform various use
+                cases..
               </CardDescription>
               <LinkButton href={`/u/${params.user}/destinations`} className="gap-1">
                 <PlusIcon className="w-3 h-3" />

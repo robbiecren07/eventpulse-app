@@ -26,10 +26,15 @@ export function Menu({ userSlug, sourceSlug }: Props) {
   return (
     <ul className="w-full flex px-6 border-b border-border">
       {links.map((link) => (
-        <li key={link.href} className={`relative h-10 w-max px-4 py-2 ${pathname === link.href ? 'border-b-2 border-purple-700' : null}`}>
+        <li
+          key={link.href}
+          className={`relative h-10 w-max p-2 ${pathname === link.href ? 'border-b-2 border-brand' : null}`}
+        >
           <Link
             href={link.href}
-            className={`text-muted-foreground hover:text-primary transition-colors ${pathname === link.href ? 'text-primary' : null}`}
+            className={`text-sm text-accent-foreground hover:text-foreground transition-colors ${
+              pathname === link.href ? 'text-foreground' : null
+            }`}
           >
             {link.label}
           </Link>

@@ -74,7 +74,7 @@ export default async function Slug({
             >
               <DotIcon className="w-2 h-2" />
             </span>
-            <span className="text-primary/80">{isWithin24Hours ? 'Receiving data' : 'No recent data'}</span>
+            <span className="text-secondary-foreground">{isWithin24Hours ? 'Receiving data' : 'No recent data'}</span>
           </div>
         </div>
 
@@ -83,8 +83,12 @@ export default async function Slug({
             <AccordionItem value="item-1">
               <AccordionTrigger>Add EventPulse to your site - required</AccordionTrigger>
               <AccordionContent className="space-y-3">
-                <h3 className="text-xl font-medium">Install the EventPulse snippet on your website</h3>
-                <p className="text-sm">Copy the EventPulse snippet and paste it high in the &lt;head&gt; of your website.</p>
+                <h3 className="text-secondary-foreground text-xl font-medium">
+                  Install the EventPulse snippet on your website
+                </h3>
+                <p className="text-accent-foreground text-sm">
+                  Copy the EventPulse snippet and paste it high in the &lt;head&gt; of your website.
+                </p>
                 {data && (
                   <div className="snippet">
                     <SyntaxHighlighter language="javascript" style={a11yDark}>
@@ -93,9 +97,12 @@ export default async function Slug({
                   </div>
                 )}
                 <CopyButton codeString={codeString} btnText="Copy Snippet" toastText="Snippet Copied!" />
-                <p className="text-sm">
+                <p className="text-accent-foreground text-sm">
                   Don&lsquo;t want to insert a &lt;head&gt; script? Try our npm{' '}
-                  <Link className="text-purple-500 hover:underline" href="https://www.npmjs.com/package/@robbiecren/eventpulse-sdk-js">
+                  <Link
+                    className="text-link transition-colors hover:text-white"
+                    href="https://www.npmjs.com/package/@robbiecren/eventpulse-sdk-js"
+                  >
                     package
                   </Link>
                   !

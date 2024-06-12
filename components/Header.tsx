@@ -40,7 +40,6 @@ export default async function Header() {
               style={{
                 aspectRatio: '32/32',
                 objectFit: 'cover',
-                filter: 'invert(1)',
               }}
             />
             <span className="sr-only">Toggle user menu</span>

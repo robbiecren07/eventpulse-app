@@ -11,8 +11,9 @@ export default async function UserLayout({
   }
 }) {
   const { user } = params
+
   return (
-    <section className="grid h-screen w-full lg:grid-cols-[280px_1fr]">
+    <section className="grid h-screen w-full lg:grid-cols-[220px_1fr]">
       <SideBar userSlug={user} />
       <div className="flex flex-col overflow-hidden">
         <Header />

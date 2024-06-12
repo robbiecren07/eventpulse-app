@@ -15,7 +15,7 @@ export default async function Destinations({ params }: { params: { user: string 
   const { sources } = await getSourceData()
 
   return (
-    <div className="w-full max-w-6xl h-full flex flex-1 flex-col gap-4 lg:gap-8 p-4 lg:p-12">
+    <div className="w-full h-full flex flex-1 flex-col gap-4 lg:gap-8 p-4 lg:p-12">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-semibold">My Destinations</h1>
         <LinkButton href={`/u/${params.user}/destinations/setup/bigquery`} className="gap-1">
@@ -24,22 +24,22 @@ export default async function Destinations({ params }: { params: { user: string 
         </LinkButton>
       </div>
 
-      <div className="flex flex-col">
-        <div className="flex h-14 bg-muted/50 border-b border-border">
+      <div className="flex flex-col border rounded-sm">
+        <div className="flex h-14 bg-secondary">
           <div className="flex-1 shrink-0 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Name</span>
+            <span className="text-xs font-medium uppercase">Name</span>
           </div>
           <div className="basis-48 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Type</span>
+            <span className="text-xs font-medium uppercase">Type</span>
           </div>
           <div className="basis-48 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Source</span>
+            <span className="text-xs font-medium uppercase">Source</span>
           </div>
           <div className="basis-48 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Project ID</span>
+            <span className="text-xs font-medium uppercase">Project ID</span>
           </div>
           <div className="basis-48 flex items-center px-3">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Dataset ID</span>
+            <span className="text-xs font-medium uppercase">Dataset ID</span>
           </div>
         </div>
 
@@ -51,7 +51,7 @@ export default async function Destinations({ params }: { params: { user: string 
               <a
                 key={source.id}
                 href={`/u/${params.user}/destinations/${source.source_slug}`}
-                className="flex h-14 border-b border-l border-r border-border hover:bg-muted/50 transition-colors"
+                className="flex h-14 border-t border-border text-accent-foreground hover:bg-secondary transition-colors"
               >
                 <div className="flex-1 shrink-0 flex items-center gap-3 px-3">
                   <span className="text-sm capitalize">{destination.name}</span>
