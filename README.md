@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# EventPulse Web App
 
-## Getting Started
+A Twilio Sement clone project.
 
-First, run the development server:
+**Disclaimer**: This is a learning project and is not intended as an official website. The site is for educational purposes only.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+EventPulse is a comprehensive event tracking and data management platform designed to help users capture, store, and analyze event data from their applications. This project is intended to demonstrate the implementation of a full-stack solution using modern web technologies.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Framework**: [Next.js 14](https://nextjs.org/)
+- **Hosting**: [Vercel](https://vercel.com/)
+- **Database**: [Supabase](https://supabase.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.dev/)
+- **CSS**: [Tailwind CSS](https://tailwindcss.com/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+### Dashboard
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **User Authentication**: Secure login and logout functionality using Supabase Auth.
+- **Event Debugger**: Real-time view of events as they are tracked by the SDK.
+- **Source Management**: Create and manage sources, which provide api keys to be used in the EventPulse SDK.
+- **Destination Management**: Configure and manage destinations like BigQuery to store your event data.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Data Handling
 
-## Deploy on Vercel
+- **Supabase Integration**: Utilize Supabase for real-time data management, storage, and authentication.
+- **BigQuery Integration**: Automatically send event data to Google BigQuery for advanced analytics and reporting.
+- **Real-Time Data**: Utilize Supabase’s real-time capabilities to monitor incoming events in the dashboard.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Usage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### EventPulse SDK
+
+The EventPulse SDK can be found at this [repo](https://github.com/robbiecren07/eventpulse-sdk-js) 
+
+## Live Demo
+
+Check out the live version of this project at [EventPulse Web App](https://eventpulse-app.vercel.app/).
+
+## TODOS
+
+- build overview page.
+- implement cookies to reduce db requests.
+- user profiles and account management.
+- remove geo info on apis, as it doesnt seem to work on external requests.

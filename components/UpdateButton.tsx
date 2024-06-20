@@ -14,7 +14,7 @@ const UpdateButton = () => {
       setTimeElapsed((prev) => prev + 1)
     }, 60000) // Update every 1 minute
 
-    return () => clearInterval(interval) // Cleanup on component unmount
+    return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {

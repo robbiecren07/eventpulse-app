@@ -3,14 +3,13 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { HomeIcon, Package2Icon, BellIcon, LineChartIcon, PackageIcon, SettingsIcon, UsersIcon } from './Icons'
+import { HomeIcon, Package2Icon, BellIcon, LineChartIcon, PackageIcon, UsersIcon } from './Icons'
 
 const links = [
   { href: '/home', label: 'Home', icon: HomeIcon },
   { href: '/overview', label: 'Connections', icon: UsersIcon },
   { href: '/sources', label: 'Sources', icon: PackageIcon },
   { href: '/destinations', label: 'Destinations', icon: LineChartIcon },
-  // { href: '/settings', label: 'Settings', icon: SettingsIcon },
 ]
 
 interface SideBarProps {
