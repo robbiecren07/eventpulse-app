@@ -1,21 +1,47 @@
 'use client'
 
-import { useRef } from 'react'
+import { useFormState, useFormStatus } from 'react-dom'
+import { useEffect, useRef } from 'react'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { createJavaScriptSource } from './actions'
+import { useToast } from '@/components/ui/use-toast'
 
-export default function Form() {
-  const formRef = useRef<HTMLFormElement>(null)
+interface Props {
+  user: string
+}
+
+const initialState = {
+  message: '',
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus()
+
   return (
-    <form
-      ref={formRef}
-      action={async (data) => {
-        await createJavaScriptSource(data)
-        formRef.current?.reset()
-      }}
-    >
+    <Button type="submit" className="gap-2" disabled={pending}>
+      {pending ? 'Creating...' : 'Create Source'}
+    </Button>
+  )
+}
+
+export function Form({ user }: Props) {
+  const [state, formAction] = useFormState(createJavaScriptSource, initialState)
+  const { toast } = useToast()
+
+  useEffect(() => {
+    if (state && state.message) {
+      toast({
+        variant: state.message.includes('successfully') ? 'default' : 'destructive',
+        title: state.message,
+        duration: 5000,
+      })
+    }
+  }, [state, toast])
+
+  return (
+    <form action={formAction}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Name *</Label>
@@ -30,7 +56,8 @@ export default function Form() {
           <p className="text-sm text-accent-foreground">The full URL where you will install eventPulse.js.</p>
           <Input id="website" type="text" name="website" placeholder="https://example.com" />
         </div>
-        <Button type="submit">Add Source</Button>
+        <input type="hidden" name="user" value={user} />
+        <SubmitButton />
       </div>
     </form>
   )

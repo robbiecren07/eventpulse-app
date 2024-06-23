@@ -58,7 +58,7 @@ export interface Database {
           type: string
           connection_type: string
           category: string
-          destination?: Json
+          destination: Json
           website_url?: string | null
           created_at?: string | null
         }

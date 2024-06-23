@@ -16,9 +16,9 @@ import { Input } from './ui/input'
 export default async function Header() {
   return (
     <header className="sticky top-0 flex h-14 lg:h-[60px] items-center gap-4 border-b px-6 bg-transparent">
-      <Link className="lg:hidden" href="#">
+      <Link className="lg:hidden" href="/">
         <Package2Icon className="h-6 w-6" />
-        <span className="sr-only">Home</span>
+        <span className="sr-only">EventPulse</span>
       </Link>
       <div className="w-full flex-1">
         <form>

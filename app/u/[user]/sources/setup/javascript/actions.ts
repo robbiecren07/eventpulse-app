@@ -4,7 +4,12 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { v4 as uuidv4 } from 'uuid'
 
-export async function createJavaScriptSource(formData: FormData) {
+export async function createJavaScriptSource(
+  prevState: {
+    message: string
+  },
+  formData: FormData
+) {
   const supabase = createClient()
 
   const {
@@ -12,7 +17,7 @@ export async function createJavaScriptSource(formData: FormData) {
   } = await supabase.auth.getUser()
 
   if (!user) {
-    throw new Error('User not found')
+    return { message: 'Failed to verify user.' }
   }
 
   const apiKey = uuidv4()
@@ -25,11 +30,20 @@ export async function createJavaScriptSource(formData: FormData) {
     connection_type: 'Event Streams',
     category: 'Website',
     website_url: formData.get('website') as string,
+    destination: {},
   })
 
   if (error) {
-    throw new Error('Error generating API key')
+    return { message: 'Failed to generate API key.' }
   }
 
-  redirect('/dashboard/sources/javascript')
+  const { data } = await supabase.from('sources').select('source_slug').eq('api_key', apiKey).single()
+
+  if (!data || !data || !data.source_slug) {
+    return { message: 'Failed to create new source.' }
+  }
+
+  const userSlug = formData.get('user') as string
+
+  redirect(`/u/${userSlug}/sources/${data.source_slug}`)
 }
